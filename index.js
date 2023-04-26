@@ -36,10 +36,10 @@ onValue(shoppingListInDB, function (snapshot) {
 
   itemsArray.forEach((item) => {
     let currentItem = item;
-    let currentItemID = currentItem[0];
-    let currentItemValue = currentItem[1];
+    // let currentItemID = currentItem[0];
+    // let currentItemValue = currentItem[1];
 
-    appendItemToShoppingListEl(currentItemValue);
+    appendItemToShoppingListEl(currentItem);
   });
 });
 
@@ -51,6 +51,14 @@ function clearShoppingListEl() {
   shoppingListEl.innerHTML = "";
 }
 
-function appendItemToShoppingListEl(itemValue) {
-  shoppingListEl.innerHTML += `<li>${itemValue}</li>`;
+function appendItemToShoppingListEl(item) {
+  // shoppingListEl.innerHTML += `<li>${itemValue}</li>`;
+  let itemID = item[0];
+  let itemValue = item[1];
+  let newEl = document.createElement("li");
+
+  // Challenge: Make it so the item name shows instead of 'Something'
+  newEl.textContent = itemValue;
+
+  shoppingListEl.append(newEl);
 }
