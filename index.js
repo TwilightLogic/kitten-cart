@@ -20,10 +20,12 @@ const inputFieldEl = document.getElementById("input-field");
 const addButtonEl = document.getElementById("add-button");
 const shoppingListEl = document.getElementById("shopping-list");
 
+inputFieldEl.focus();
+
 addButtonEl.addEventListener("click", function () {
   let inputValue = inputFieldEl.value;
 
-  push(shoppingListInDB, inputValue);
+  inputValue.trim() === "" ? "" : push(shoppingListInDB, inputValue);
 
   clearInputFieldEl();
 
