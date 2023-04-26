@@ -1,6 +1,6 @@
 # Firebase Studying – Build a Mobile App with HTML, CSS, JavaScript
 
-### Learn from **[Rafid Hoda - Firebase tutorial for beginners](https://scrimba.com/learn/firebase/aside-firebase-realtime-database-co16349e3ae599d8bd46303ae)**
+### Learn from **[Rafid Hoda - Firebase tutorial for beginners](https://scrimba.com/learn/firebase/lets-build-a-mobile-app-with-firebase-co8de4dd39fd49db58b3e5ff8)**
 
 You can input somethings that you need in the input fields, and we will save your items in database from FireBase.
 
