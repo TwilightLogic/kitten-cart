@@ -1,10 +1,8 @@
-// Before we start:
-// Go firebase and adding some data
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import {
   getDatabase,
   ref,
+  push,
   onValue,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
@@ -15,35 +13,40 @@ const appSettings = {
 
 const app = initializeApp(appSettings);
 const database = getDatabase(app);
-const booksInDB = ref(database, "books");
+const shoppingListInDB = ref(database, "shoppingList");
 
-const booksEl = document.getElementById("books");
+const inputFieldEl = document.getElementById("input-field");
+const addButtonEl = document.getElementById("add-button");
+const shoppingListEl = document.getElementById("shopping-list");
 
-// Fetch data from firebase
-// 1. reference
-// 2. a function that we want to do
-// The onValue method is commonly used to keep a web page updated
-// with real-time data from the Firebase database.
-// Whenever the data at the specified location in the database changes,
-// the callback function is invoked,
-// allowing the web page to update its content accordingly.
-onValue(booksInDB, function (snapshot) {
-  let booksArray = Object.values(snapshot.val());
+addButtonEl.addEventListener("click", function () {
+  let inputValue = inputFieldEl.value;
 
-  clearBooksListEl();
+  push(shoppingListInDB, inputValue);
 
-  // Challenge: Write a for loop where you console log each book.
-  booksArray.forEach((book) => {
-    let currentBook = book;
+  clearInputFieldEl();
 
-    appendBookToBooksListEl(currentBook);
-  });
+  appendItemToShoppingListEl(inputValue);
 });
 
-function clearBooksListEl() {
-  booksEl.innerHTML = "";
+/*
+Challenge:
+Call the onValue function with
+shoppingListInDB as the first argument and
+function(snapshot) {} as the second argument
+*/
+
+onValue(shoppingListInDB, function (snapshot) {
+  // Challenge:
+  // Console log snapshot.val() to show all the items inside of shoppingList in the database
+  let itemsArray = Object.values(snapshot.val());
+  console.log(itemsArray);
+});
+
+function clearInputFieldEl() {
+  inputFieldEl.value = "";
 }
 
-function appendBookToBooksListEl(bookValue) {
-  booksEl.innerHTML += `<li>${bookValue}</li>`;
+function appendItemToShoppingListEl(itemValue) {
+  shoppingListEl.innerHTML += `<li>${itemValue}</li>`;
 }
