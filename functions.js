@@ -20,4 +20,4 @@ let scrimbaUsersIDs = Object.keys(scrimbaUsers);
 
 // Challenge: Create a let variable called 'scrimbaUsersEntries' and use one of Object methods to set it equal to an array with the both the keys and values
 
-scrimbaUsersEntires = Object.entries(scrimbaUsers);
+let scrimbaUsersEntires = Object.entries(scrimbaUsers);
