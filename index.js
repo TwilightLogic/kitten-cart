@@ -26,25 +26,25 @@ addButtonEl.addEventListener("click", function () {
 
   clearInputFieldEl();
 
-  appendItemToShoppingListEl(inputValue);
+  // appendItemToShoppingListEl(inputValue);
 });
 
-/*
-Challenge:
-Call the onValue function with
-shoppingListInDB as the first argument and
-function(snapshot) {} as the second argument
-*/
-
 onValue(shoppingListInDB, function (snapshot) {
-  // Challenge:
-  // Console log snapshot.val() to show all the items inside of shoppingList in the database
   let itemsArray = Object.values(snapshot.val());
-  console.log(itemsArray);
+
+  clearShoppingListEl();
+
+  itemsArray.forEach((item) => {
+    appendItemToShoppingListEl(item);
+  });
 });
 
 function clearInputFieldEl() {
   inputFieldEl.value = "";
+}
+
+function clearShoppingListEl() {
+  shoppingListEl.innerHTML = "";
 }
 
 function appendItemToShoppingListEl(itemValue) {
