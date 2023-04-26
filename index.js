@@ -19,16 +19,27 @@ const inputFieldEl = document.getElementById("input-field");
 const addButtonEl = document.getElementById("add-button");
 const shoppingList = document.getElementById("shopping-list");
 
+const renderShoppingList = (itemValue) => {
+  const html = `<li>${itemValue}</li>`;
+  shoppingList.insertAdjacentHTML("beforeend", html);
+};
+
+const clearInputFieldEl = (el) => {
+  inputFieldEl.value = "";
+};
+
 // Add-to-cart event handler
 addButtonEl.addEventListener("click", function () {
   let inputValue = inputFieldEl.value;
 
   // 1. push `inputValue` into data base
   // push(shoppingListInDB, inputValue);
+
   // 2. Insert the value as a `<li>` into `<ul>`
-  shoppingList.insertAdjacentHTML("beforeend", `<li>${inputValue}</li>`);
+  renderShoppingList(inputValue);
+
   // 3. Empty the input field after submitting
-  inputFieldEl.value = "";
+  clearInputFieldEl();
 
   console.log(inputValue);
 });
