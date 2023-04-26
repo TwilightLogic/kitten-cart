@@ -27,6 +27,8 @@ addButtonEl.addEventListener("click", function () {
   // push(shoppingListInDB, inputValue);
   // 2. Insert the value as a `<li>` into `<ul>`
   shoppingList.insertAdjacentHTML("beforeend", `<li>${inputValue}</li>`);
+  // 3. Empty the input field after submitting
+  inputFieldEl.value = "";
 
   console.log(inputValue);
 });
