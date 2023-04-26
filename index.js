@@ -1,8 +1,11 @@
+// Before we start:
+// Go firebase and adding some data
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import {
   getDatabase,
   ref,
-  push,
+  onValue,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 const appSettings = {
@@ -10,36 +13,37 @@ const appSettings = {
     "https://kitten-cart-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
 
-// Initialize the firebase configurations
 const app = initializeApp(appSettings);
 const database = getDatabase(app);
-const shoppingListInDB = ref(database, "shoppingList");
+const booksInDB = ref(database, "books");
 
-const inputFieldEl = document.getElementById("input-field");
-const addButtonEl = document.getElementById("add-button");
-const shoppingList = document.getElementById("shopping-list");
+const booksEl = document.getElementById("books");
 
-const renderShoppingList = (itemValue) => {
-  const html = `<li>${itemValue}</li>`;
-  shoppingList.insertAdjacentHTML("beforeend", html);
-};
+// Fetch data from firebase
+// 1. reference
+// 2. a function that we want to do
+// The onValue method is commonly used to keep a web page updated
+// with real-time data from the Firebase database.
+// Whenever the data at the specified location in the database changes,
+// the callback function is invoked,
+// allowing the web page to update its content accordingly.
+onValue(booksInDB, function (snapshot) {
+  let booksArray = Object.values(snapshot.val());
 
-const clearInputFieldEl = (el) => {
-  inputFieldEl.value = "";
-};
+  clearBooksListEl();
 
-// Add-to-cart event handler
-addButtonEl.addEventListener("click", function () {
-  let inputValue = inputFieldEl.value;
+  // Challenge: Write a for loop where you console log each book.
+  booksArray.forEach((book) => {
+    let currentBook = book;
 
-  // 1. push `inputValue` into data base
-  // push(shoppingListInDB, inputValue);
-
-  // 2. Insert the value as a `<li>` into `<ul>`
-  renderShoppingList(inputValue);
-
-  // 3. Empty the input field after submitting
-  clearInputFieldEl();
-
-  console.log(inputValue);
+    appendBookToBooksListEl(currentBook);
+  });
 });
+
+function clearBooksListEl() {
+  booksEl.innerHTML = "";
+}
+
+function appendBookToBooksListEl(bookValue) {
+  booksEl.innerHTML += `<li>${bookValue}</li>`;
+}
