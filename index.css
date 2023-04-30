@@ -14,7 +14,7 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  margin-top: 96px;
+  margin-top: 24px;
   max-width: 360px;
   padding: 36px;
   border: solid 2px #663333;
