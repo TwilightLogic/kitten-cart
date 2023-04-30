@@ -64,7 +64,7 @@ const removeItem = function (db, id) {
 
   deleteTimeout = setTimeout(() => {
     remove(exactLocationOfItemInDB);
-  }, 1000);
+  }, 500);
 };
 
 function appendItemToShoppingListEl(item) {
