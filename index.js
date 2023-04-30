@@ -11,11 +11,11 @@ const appSettings = {
   databaseURL:
     "https://kitten-cart-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
-
+let deleteTimeout;
+let startTime;
 const app = initializeApp(appSettings);
 const database = getDatabase(app);
 const shoppingListInDB = ref(database, "shoppingList");
-
 const inputFieldEl = document.getElementById("input-field");
 const addButtonEl = document.getElementById("add-button");
 const shoppingListEl = document.getElementById("shopping-list");
@@ -28,14 +28,12 @@ addButtonEl.addEventListener("click", function () {
   inputValue.trim() === "" ? "" : push(shoppingListInDB, inputValue);
 
   clearInputFieldEl();
-
-  // appendItemToShoppingListEl(inputValue);
 });
 
 onValue(shoppingListInDB, function (snapshot) {
-  // Challenge: Change the onValue code so that it uses snapshot.exists() to show items when there are items in the database and if there are not displays the text 'No items here... yet'.
+  // snapshot.exists(): to show items when there are items in the database
   if (snapshot.exists()) {
-    // Fetching data from database
+    // Fetching data(key, value) from database
     let itemsArray = Object.entries(snapshot.val());
 
     clearShoppingListEl();
@@ -60,17 +58,34 @@ function clearShoppingListEl() {
   shoppingListEl.innerHTML = "";
 }
 
+const removeItem = function (db, id) {
+  startTime = Date.now();
+  let exactLocationOfItemInDB = ref(db, `shoppingList/${id}`);
+
+  deleteTimeout = setTimeout(() => {
+    remove(exactLocationOfItemInDB);
+  }, 1000);
+};
+
 function appendItemToShoppingListEl(item) {
-  // shoppingListEl.innerHTML += `<li>${itemValue}</li>`;
   let itemID = item[0];
   let itemValue = item[1];
   let newEl = document.createElement("li");
 
   newEl.textContent = itemValue;
 
-  newEl.addEventListener("click", function () {
-    let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}`);
-    remove(exactLocationOfItemInDB);
+  // Long press the button to delete the item
+  // Laptop
+  newEl.addEventListener("mousedown", removeItem.bind(null, database, itemID));
+
+  newEl.addEventListener("mouseup", () => {
+    Date.now() - startTime < 1000 ? clearTimeout(deleteTimeout) : "";
+  });
+
+  // Mobile devices
+  newEl.addEventListener("touchstart", removeItem.bind(null, database, itemID));
+  newEl.addEventListener("touchend", () => {
+    Date.now() - startTime < 1000 ? clearTimeout(deleteTimeout) : "";
   });
 
   shoppingListEl.append(newEl);

@@ -102,8 +102,7 @@ ul li:hover {
 }
 
 button,
-input,
-ul li {
+input {
   transition: all 0.3s ease;
 }
 
